@@ -3,6 +3,8 @@ from typing import Optional
 from pydantic import BaseModel,Field
 from enum import Enum
 
+# Create an instance of the FastAPI class
+app = FastAPI()
 
 class Item(BaseModel):
     name: str
@@ -45,8 +47,7 @@ item_customer = {
 
 
 
-# Create an instance of the FastAPI class
-app = FastAPI()
+
 
 items = []
 # Define a route using a decorator and async function

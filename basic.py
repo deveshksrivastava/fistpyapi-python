@@ -1,7 +1,7 @@
 # https://www.youtube.com/watch?v=VFu95RjLSQ8
 # https://github.com/vipankumar123/Educational-Purpose
 
-from fastapi import FastAPI, Path, Query
+from fastapi import FastAPI, Path, Query, Form,File, UploadFile
 from fastapi.exceptions import HTTPException
 from typing import Union #var to handle optional types, Union[int,str]
 from pydantic import BaseModel # datca validation and settings management
@@ -100,3 +100,55 @@ async def get_item(item_id: int = Path(..., title="The ID of the item to get", g
 async def post_func(item: Item):
     """Endpoint to create a new item."""
     return {"item": item}
+
+
+# Form Data, using query and form data
+@app.post("/form/data")
+# async def form_data(name: str, age: int): //show query parameters
+async def form_data(name: str=Form(), age: int=Form()): #show string and integer form data
+    """Endpoint to receive form data."""
+    return {"name": name, "age": age}
+
+class ItemTCB(BaseModel):
+    """Representation of an item in the system."""
+    name: str
+    description: Union[str, None] = None
+    price: float
+    tax: Union[float, None] = None
+
+# using JSON
+@app.post("/form-json/data")
+async def form_data(items:ItemTCB): # using JSON body
+    """Endpoint to receive form data."""
+    return {"name": items.name, "description": items.description, "price": items.price, "tax": items.tax} 
+
+# upload file
+# from fastapi import File, UploadFile
+
+# @app.post("/uploadfile/")
+# async def upload_file(file: UploadFile = File(...)):
+#     """Endpoint to upload a file."""
+#     return {"filename": file.filename}  
+
+@app.post("/uploadfile/")
+async def file_bytes_len(file: bytes = File(...)):
+    return {"file_size": len(file)}
+
+@app.post("/uploadfile/file")
+async def file_upload(file:UploadFile):
+    return ({"filename": file.filename, "content_type": file.content_type, "file_size": len(file.file.read())})
+
+
+## error handling, 2 items return, >2 items return error
+@app.get("/error/{item_id}")
+async def error_func(item_id: int):
+    if item_id not in users_items:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return users_items[item_id]
+
+items = [1,2,3,4,5,6,7,8,9,10]  # Example list of items
+@app.get("/error-array/{item_id}")
+async def error_func_array(item: int):
+    if item not in items:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"value": item}
