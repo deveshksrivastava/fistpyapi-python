@@ -3,7 +3,8 @@
 ## start fastAPI
 
  - pip install fastapi
- - pip install "uvicorn[standard]"
+ - pip install fastapi[all] ths will install every thing including uvicorn
+ - pip install "uvicorn[standard]" - helps to run the fast api like 
  - pip install python-multipart sqlalchemy jinja2
  - python -m uvicorn app:app --reload
  - python -m uvicorn main:app --reload
@@ -22,17 +23,28 @@
  - http://127.0.0.1:8000/openapi.json (Json View)
 
 ## Learn Python from UDEMY
+ - https://fastapi.tiangolo.com/tutorial/first-steps/ (fast api documents)
  - https://github.com/Pierian-Data/Complete-Python-3-Bootcamp
  - https://www.youtube.com/watch?v=iWS9ogMPOI0
+ - https://youtu.be/VFu95RjLSQ8
 
  - https://github.com/ArjanCodes/2023-fastapi
  - https://www.youtube.com/watch?v=SORiTsvnU28
 
+- use can use the simple rest client or postman to run it.
  - curl -X "POST" "http://127.0.0.1:8000/" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"foo\": \"bar\"}"
  - curl -X POST -H "Content-Type: application/json" "http://127.0.0.1:8000/items?item=apple" 
  - curl -X GET http://127.0.0.1:8000/items/2 
  - $ curl -X GET 'http://127.0.0.1:8000/items?limit=2'
 
+## BaseModel
+In FastAPI, BaseModel comes from Pydantic and is used for data validation and serialization. It helps define structured data models, ensuring that incoming and outgoing data follows a specific format.
+### Key Uses of BaseModel in FastAPI:
+ - Automatic Data Validation – Ensures that request data matches the expected types.
+ - Serialization & Deserialization – Converts Python objects into JSON and vice versa.
+ - Improved API Documentation – FastAPI automatically generates OpenAPI docs based on BaseModel.
+ - Default Values & Constraints – Allows setting default values and validation rules
+ - Path and Query are used to define and validate parameters in API routes.
 
 ## Learn more about - Step by step
  - https://realpython.com/fastapi-python-web-apis/
