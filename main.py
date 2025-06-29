@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, Request, Form, status
 from typing import Optional
 from pydantic import BaseModel,Field
 from enum import Enum
+from connectdb import maindb
 
 # Create an instance of the FastAPI class
 app = FastAPI()
@@ -206,3 +207,68 @@ def delete_item(item_id: int) -> dict[str, Item]:
 
     item = items.pop(item_id)
     return {"deleted": item}
+
+
+
+# main.py
+# from fastapi import FastAPI, Depends, HTTPException
+# from sqlalchemy.orm import Session
+# from connet_db.db import Base, engine, SessionLocal, User
+# from pydantic import BaseModel
+# # from fastapi_pagination import Page, add_pagination, paginate
+# # from fastapi_pagination.ext.sqlalchemy import paginate as sqlalchemy_paginate
+
+# Base.metadata.drop_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
+# app = FastAPI()
+# # add_pagination(app)
+
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
+
+# class UserCreate(BaseModel):
+#     name: str
+#     age: int
+
+# class UserOut(BaseModel):
+#     id: int
+#     name: str
+#     age: int
+#     class Config:
+#         orm_mode = True
+
+# @app.post("/users/", response_model=UserOut)
+# def create_user(user: UserCreate, db: Session = Depends(get_db)):
+#     db_user = User(**user.dict())
+#     db.add(db_user)
+#     db.commit()
+#     db.refresh(db_user)
+#     return db_user
+
+# @app.get("/users/")
+# def read_users(db: Session = Depends(get_db)):
+#     return db.query(User).all()
+
+# @app.put("/users/{user_id}", response_model=UserOut)
+# def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
+#     db_user = db.query(User).filter(User.id == user_id).first()
+#     if not db_user:
+#         raise HTTPException(status_code=404, detail="User not found")
+#     db_user.name = user.name
+#     db_user.age = user.age
+#     db.commit()
+#     db.refresh(db_user)
+#     return db_user
+
+# @app.delete("/users/{user_id}")
+# def delete_user(user_id: int, db: Session = Depends(get_db)):
+#     db_user = db.query(User).filter(User.id == user_id).first()
+#     if not db_user:
+#         raise HTTPException(status_code=404, detail="User not found")
+#     db.delete(db_user)
+#     db.commit()
+#     return {"ok": True}

@@ -1,5 +1,24 @@
 # Python
 
+# Educational-Purpose
+In this Repository I will share fastapi core concepts for my YouTube subscribers
+1. What is Path parameters
+2. What is Query parameters
+3. Choice field in FastAPI
+4. What is Request Body
+5. Declare request example data
+6. Fastapi Validations
+7. Fastapi Form data
+8. Fastapi File Upload
+9. Fastapi Error Handling
+10. Fastapi DataBase Connectivity
+11. Fastapi Restful API's
+12. Fastapi Nested Models
+13. Fastapi OAuth2 with password and hashing jwt token
+14. Fastapi Role based uthentication
+15. Fastapi Unit Testing
+# https://github.com/Coding-Crashkurse/FastAPI-Auth/tree/main/fastapi/app  (imp link)
+
 ## start fastAPI
 
  - pip install fastapi
@@ -8,6 +27,7 @@
  - pip install python-multipart sqlalchemy jinja2
  - python -m uvicorn app:app --reload
  - python -m uvicorn main:app --reload
+ - python -m uvicorn connectdb.maindb:app --reload    : to run from folder, should have __init__py and call from connectdb import maindb from main
 
 ## Why fast Api
  - Async by default
@@ -21,6 +41,8 @@
  - http://127.0.0.1:8000/docs (Swager view)
  - http://127.0.0.1:8000/redoc (diffrent swager view)
  - http://127.0.0.1:8000/openapi.json (Json View)
+
+
 
 ## Learn Python from UDEMY
  - https://fastapi.tiangolo.com/tutorial/first-steps/ (fast api documents)
@@ -151,3 +173,83 @@ sqlite> select * from todos;
 │ 1  │ BookDay │ THIS IS ABOUT THE HOME PAGE │
 └────┴─────────┴─────────────────────────────┘
 
+
+### instal Sqlite
+#### To install SQLite3 on Windows 10, follow these steps:
+ - Download SQLite Tools Go to the official SQLite download page and look for the section titled "Precompiled Binaries for Windows". Download the file named sqlite-tools-win-x64-*.zip (or win-x86 if you're on 32-bit).
+ - Extract the ZIP File Extract the contents to a folder, for example: C:\sqlite. Inside, you’ll find sqlite3.exe, which is the command-line tool.
+ - Add SQLite to System Path (Optional but Recommended)
+   - Open the Start menu, search for Environment Variables, and click Edit the system environment variables.
+   - In the System Properties window, click Environment Variables.
+   - Under System variables, find and select Path, then click Edit.
+   - Click New and add the path to your SQLite folder (e.g., C:\sqlite).
+   - Click OK to close all windows.
+ - Verify Installation Open Command Prompt and type: sqlite3
+ - pip install fastapi uvicorn sqlalchemy
+
+### Setting up database and models
+```
+# db.py
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+DATABASE_URL = "sqlite:///./test.db"
+
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+
+```
+
+### Create a Virtual Environment (recommended)
+```
+1. Run command in terminal
+python -m venv venv
+venv\Scripts\activate   # For Windows
+
+2. Install Your Packages
+pip install fastapi uvicorn sqlalchemy pydantic fastapi-pagination
+
+3. Freeze Installed Packages into requirements.txt
+pip freeze > requirements.txt
+
+This creates a requirements.txt like:
+fastapi==0.110.0
+uvicorn==0.29.0
+sqlalchemy==2.0.30
+pydantic==2.7.1
+fastapi-pagination==0.12.24
+(Optional: You can manually edit this file to remove unneeded dependencies.)
+
+4. Installing from requirements.txt Later
+To recreate your environment on another machine:
+  pip install -r requirements.txt
+
+or 
+Option 2: Use a Clean Virtual Environment Sometimes starting fresh helps:
+
+python -m venv venv
+venv\Scripts\activate  # On Windows
+pip install -r requirements.txt
+
+Update dependency 
+python -m pip install --upgrade pip
+
+```
+
+### Logging
+```
+import logging
+
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger(__name__)
+# logger.info("This is an info message")
+# logger.warning("This is a warning")
+# logger.error("This is an error")
+
+```
