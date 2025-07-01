@@ -2,10 +2,16 @@ from fastapi import FastAPI, HTTPException, Depends, Request, Form, status
 from typing import Optional
 from pydantic import BaseModel,Field
 from enum import Enum
-from connectdb import maindb
+from v1 import routes as v1_routes
+from v2 import routes as v2_routes
+# from connectdb import maindb
 
 # Create an instance of the FastAPI class
 app = FastAPI()
+
+app.include_router(v1_routes.router, prefix="/v1", tags=["v1"])
+app.include_router(v2_routes.router, prefix="/v2", tags=["v2"])
+
 
 class Item(BaseModel):
     name: str

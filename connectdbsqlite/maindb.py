@@ -1,15 +1,17 @@
 # main.py
-from fastapi import FastAPI, Depends, HTTPException, Form, File, UploadFile, Request
+from fastapi import FastAPI, Depends, HTTPException, Form, File, UploadFile, Request, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from connectdb.db import Base, engine, SessionLocal
+from connectdbsqlite.db import Base, engine, SessionLocal
 import time
-from connectdb.models import User
-from connectdb.crud import DATABASE_URL, hello_world
+from connectdbsqlite.models import User
+from connectdbsqlite.crud import DATABASE_URL, hello_world
 from pydantic import BaseModel # Pydantic is used for data validation and serialization
 from typing import List, Optional
-# from slowapi import Limiter, _rate_limit_exceeded_handler
-# from slowapi.util import get_remote_address
-# from slowapi.errors import RateLimitExceeded
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 # from fastapi_pagination import Page, add_psagination, paginate
 # from fastapi_pagination.ext.sqlalchemy import paginate as sqlalchemy_paginate
 import logging
@@ -36,16 +38,27 @@ async def log_requests(request: Request, call_next):
     logging.info(f"{request.method} {request.url.path} completed in {duration}ms")
     return response
 
-# # Create a limiter instance
-# limiter = Limiter(key_func=get_remote_address)
-# app.state.limiter = limiter
-# app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+def process_notification(email, message: str):
+    time.sleep(1000)
+    print(f"sending email to {email}, message : {message}")
 
-# # Apply rate limit to a route
-# @app.get("/limited")
-# @limiter.limit("5/minute")  # ⏱️ 5 requests per minute per IP
-# async def limited_endpoint(request: Request):
-#     return {"message": "You're within the rate limit!"}
+@app.post("/send-notifications/{email}")
+async def send_notification(email: str, background_tasks: BackgroundTasks):
+    message = "hello how are you...?"
+    # process_notification(email, message)
+    background_tasks.add_task(process_notification, email, message)
+    return {"message": "Notification sent to the background task."}
+
+# Create a limiter instance
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Apply rate limit to a route
+@app.get("/limited")
+@limiter.limit("5/minute")  # ⏱️ 5 requests per minute per IP
+async def limited_endpoint(request: Request):
+    return {"message": "You're within the rate limit!"}
 
 def get_db(): # request db session for each request
     db = SessionLocal()
@@ -174,3 +187,20 @@ async def upload_multiple_files(files: List[UploadFile] = File(...)):
             f.write(await file.read())
         logging.info(f"File {file.filename} saved successfully.")
     return {"message": "Files uploaded successfully"}
+
+
+# #Event handler for startup
+# @app.on_event("startup")
+# async def startup_event():
+#     print("app is starting now!!$$$$$$$$$$$###########")
+#     #add your functionlaity
+
+# #Event handler for shutdown
+# @app.on_event("shutdown")
+# async def shutdown_event():
+#     print("app is shutdown now!!!!!!!!!!")
+#     #add your functionlaity
+
+# @app.get("/")
+# async def read_root():
+#     return {"message": "Hello Mind Blowing."}

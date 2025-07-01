@@ -27,7 +27,44 @@ In this Repository I will share fastapi core concepts for my YouTube subscribers
  - pip install python-multipart sqlalchemy jinja2
  - python -m uvicorn app:app --reload
  - python -m uvicorn main:app --reload
- - python -m uvicorn connectdb.maindb:app --reload    : to run from folder, should have __init__py and call from connectdb import maindb from main
+ - python -m uvicorn connectdb.maindb:app --reload    : to run from folder, should have __init__py and call from connectdb import 
+ maindb from main
+ - python -m uvicorn TASK_SERVICE.main:app --reload   -> run inside the task_Service folder there is main.py file
+
+## Working Directory
+fistpyapi/
+├── .env
+├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── main.py
+├── app/
+│   ├── __init__.py
+│   ├── core/
+│   │   ├── config.py            # Environment config & settings
+│   │   └── security.py          # Auth/JWT handling
+│   ├── models/
+│   │   └── user.py              # SQLAlchemy or Pydantic models
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── v1/
+│   │   │   ├── __init__.py
+│   │   │   └── user_routes.py   # e.g., /v1/users
+│   │   └── v2/
+│   │       ├── __init__.py
+│   │       └── user_routes.py   # e.g., /v2/users
+│   ├── services/
+│   │   └── user_service.py      # Business logic
+│   ├── db/
+│   │   ├── base.py
+│   │   ├── models.py
+│   │   └── session.py           # DB connection setup
+│   └── schemas/
+│       └── user_schema.py       # Pydantic request/response models
+└── tests/
+    └── test_users.py
+
 
 ## Why fast Api
  - Async by default
@@ -252,4 +289,62 @@ import logging
 # logger.warning("This is a warning")
 # logger.error("This is an error")
 
+```
+
+
+### Docker:
+```
+# Use official Python image
+FROM python:3.12-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements and install
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy app code
+COPY . .
+
+# Run the app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+
+docker build -t my-fastapi-app .
+docker run -d -p 8000:8000 my-fastapi-app
+
+```
+
+```
+python -m uvicorn main:basic --reload
+
+
+docker build -t my-fastapi-app .
+docker run -d -p 8000:8000 my-fastapi-app
+
+
+**************
+## use command line
+python -m venv venv
+venv\Scripts\activate  # On Windows
+--> add file to requirement.txt
+pip install -r requirements.txt
+
+```
+
+### Module not installed
+```
+python --version
+pip --version
+If they don’t match, use:
+
+python -m pip install pyodbc
+🧪 Step 3: Test the Install
+After installing, test it in Python:
+
+python
+import pyodbc
+print(pyodbc.version)
 ```

@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, Form, File, UploadFile
-from connectdb.models import User
+from models import User
 
-DATABASE_URL = "sqlite:///./test.db"
 def hello_world():    
     return {"message": "Hello, World!"}
     
