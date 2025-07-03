@@ -32,6 +32,7 @@ In this Repository I will share fastapi core concepts for my YouTube subscribers
  - python -m uvicorn TASK_SERVICE.main:app --reload   -> run inside the task_Service folder there is main.py file
 
 ## Working Directory
+```
 fistpyapi/
 ├── .env
 ├── .gitignore
@@ -64,7 +65,7 @@ fistpyapi/
 │       └── user_schema.py       # Pydantic request/response models
 └── tests/
     └── test_users.py
-
+```
 
 ## Why fast Api
  - Async by default
