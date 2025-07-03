@@ -176,7 +176,7 @@ sqlalchemy (pip install sqlalchemy)
 
 
 Connecting Sql light
-
+```
 D:\sites\LearnPython\fistpyapi>sqlite3
 sqlite> .schema
 sqlite>  create table todos (id INTEGER NOT NULL, title VARCHAR,desc VARCHAR, PRIMARY KEY (id));
@@ -210,7 +210,7 @@ sqlite> select * from todos;
 ├────┼─────────┼─────────────────────────────┤
 │ 1  │ BookDay │ THIS IS ABOUT THE HOME PAGE │
 └────┴─────────┴─────────────────────────────┘
-
+```
 
 ### instal Sqlite
 #### To install SQLite3 on Windows 10, follow these steps:
