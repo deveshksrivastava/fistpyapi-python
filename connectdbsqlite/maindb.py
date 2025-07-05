@@ -88,6 +88,11 @@ class UserOut(BaseModel):
     class Config:
         from_attributes  = True
 
+@app.get("/")  # Decorator for GET requests to the root URL
+async def read_root():
+    """Root endpoint that returns a simple message. """
+    return {"message": "Hello, World!"}
+
 @app.post("/users/", response_model=UserOut)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = User(name=user.name, age=user.age, email=user.email, password=user.password) 
@@ -97,6 +102,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_user)
     return db_user
+
 
 @app.get("/hello-world/")
 def read_hello():

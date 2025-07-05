@@ -27,8 +27,7 @@ In this Repository I will share fastapi core concepts for my YouTube subscribers
  - pip install python-multipart sqlalchemy jinja2
  - python -m uvicorn app:app --reload
  - python -m uvicorn main:app --reload
- - python -m uvicorn connectdb.maindb:app --reload    : to run from folder, should have __init__py and call from connectdb import 
- maindb from main
+ - python -m uvicorn connectdb.maindb:app --reload   - connectdb.maindb(folder structure with __init__)
  - python -m uvicorn TASK_SERVICE.main:app --reload   -> run inside the task_Service folder there is main.py file
 
 ## Working Directory
@@ -244,19 +243,17 @@ class User(Base):
 
 ```
 
-### Create a Virtual Environment (recommended)
+### Create a Virtual Environment use command 
 ```
-1. Run command in terminal
+1. Create environment
 python -m venv venv
-venv\Scripts\activate   # For Windows
-
-2. Install Your Packages
+venv\Scripts\activate   # For Windows, use source for mac
 pip install fastapi uvicorn sqlalchemy pydantic fastapi-pagination
 
-3. Freeze Installed Packages into requirements.txt
+2. Freeze Installed Packages into requirements.txt
 pip freeze > requirements.txt
 
-This creates a requirements.txt like:
+3. This creates a requirements.txt like:
 fastapi==0.110.0
 uvicorn==0.29.0
 sqlalchemy==2.0.30
