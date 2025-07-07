@@ -209,6 +209,9 @@ def delete_item(item_id: int) -> dict[str, Item]:
     item = items.pop(item_id)
     return {"deleted": item}
 
+@app.get("/items-status-code/", status_code=status.HTTP_200_OK)
+def read_items():
+    return [{"name": "Plumbus"}, {"name": "Portal Gun"}]
 
 
 # main.py

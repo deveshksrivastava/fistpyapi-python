@@ -1,7 +1,20 @@
 # Python
 
-## Start fastAPI
+## Why fast Api
+ - Async by default, morden framwork to build fast, high performance production ready code.
+ - easy to define route, error handling
+ - Swagger ready, based on giants: starlette(for web part) & pydentic(for data parts)
+ - large communit support
+ - easy to use
+ - Djngo is hevey weight
 
+# View the application
+ - http://127.0.0.1:8000/ (html view)
+ - http://127.0.0.1:8000/docs (Swager view)
+ - http://127.0.0.1:8000/redoc (diffrent swager view)
+ - http://127.0.0.1:8000/openapi.json (Json View)
+
+## Start fastAPI
  - pip install fastapi
  - pip install fastapi[all] ths will install every thing including uvicorn
  - pip install "uvicorn[standard]" - helps to run the fast api like 
@@ -9,6 +22,19 @@
  - python -m uvicorn main:app --reload
  - python -m uvicorn connectdb.maindb:app --reload   - connectdb.maindb(folder(connectdb) structure with __init__)
 ## Install Python Adding modules with pip
+Manual
+```
+ -> View -> command Pallate - Python: Create Environment 
+ -> View -> command Pallate - Python: Select Interpretor 
+ -> View -> command Pallate - Python: Create Terminal
+
+$ pip list
+$ create requirements.txt file 
+$ add [fastapi, uvicorn[standard]]
+$ pip install -r .\requirement.txt
+
+```
+With Code
 ```
 - Setting up vs code with extention
   - ms-python.python
@@ -85,6 +111,7 @@
       - https://pypi.org/search/?q=fastapi&o=  #serach like npm 
       - https://docs.python.org/3/tutorial/    # learn python from offical document
       - https://fastapi.tiangolo.com/learn/
+      - https://github.com/codingwithroby/FastAPI-The-Complete-Course
 ```
 
 ### Learn Python
@@ -128,28 +155,11 @@ fistpyapi/
     └── test_users.py
 ```
 
-## Why fast Api
- - Async by default, morden framwork to build fast, high performance production ready code.
- - easy to define route, error handling
- - Swagger ready, based on giants: starlette(for web part) & pydentic(for data parts)
- - large communit support
- - easy to use
- - Djngo is hevey weight
-
-# View the application
- - http://127.0.0.1:8000/ (html view)
- - http://127.0.0.1:8000/docs (Swager view)
- - http://127.0.0.1:8000/redoc (diffrent swager view)
- - http://127.0.0.1:8000/openapi.json (Json View)
-
-
-
 ## Learn Python from UDEMY
  - https://fastapi.tiangolo.com/tutorial/first-steps/ (fast api documents)
  - https://github.com/Pierian-Data/Complete-Python-3-Bootcamp
  - https://www.youtube.com/watch?v=iWS9ogMPOI0 (Python FastAPI Tutorial: Build a REST API in 15 Minutes)
  - https://youtu.be/VFu95RjLSQ8 (FastAPI: Basics to Advanced Concepts, 3hrs)
-
  - https://github.com/ArjanCodes/2023-fastapi
  - https://www.youtube.com/watch?v=SORiTsvnU28
 
@@ -438,5 +448,21 @@ markdown
 - Use %20 for spaces in filenames: [My File](docs/My%20File.md)
 - Use ./ for current directory and ../ to go up one level
 - GitHub automatically renders these links in the web UI
+```
+
+
+### Status Codes
+```
+You can import the status module from fastapi: status is provided directly by Starlette
+
+from fastapi import FastAPI, status
+app = FastAPI()
+
+@app.get("/items/", status_code=status.HTTP_418_IM_A_TEAPOT)
+def read_items():
+    return [{"name": "Plumbus"}, {"name": "Portal Gun"}]
+
+https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+
 ```
 

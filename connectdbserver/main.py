@@ -3,25 +3,24 @@ from fastapi import FastAPI, Depends, HTTPException, Form, File, UploadFile, Req
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from db import Base, engine, SessionLocal
+from app.db import Base, engine, SessionLocal
 import time
-from models import User
-from crud import hello_world
+from app.models import User
+from app.crud import hello_world
 from pydantic import BaseModel # Pydantic is used for data validation and serialization
 from typing import List, Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-# from fastapi_pagination import Page, add_psagination, paginate
-# from fastapi_pagination.ext.sqlalchemy import paginate as sqlalchemy_paginate
+
+from dotenv import load_dotenv
+import os
 import logging
+
+load_dotenv()  # Loads variables from .env into environment
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-# logger.info("This is an info message")
-# logger.warning("This is a warning")
-# logger.error("This is an error")
-
 
 # Base.metadata.drop_all(bind=engine) # Uncomment this line to drop all tables before creating them
 Base.metadata.create_all(bind=engine)
@@ -32,7 +31,12 @@ app = FastAPI()
 @app.get("/")  # Decorator for GET requests to the root URL
 async def read_root():
     """Root endpoint that returns a simple message. """
-    return {"message": "Hello, World!"}
+    return {
+    "db_url": os.getenv("DB_URL"),
+    "debug_mode": os.getenv("DEBUG") == "True",
+    "secret_key": os.getenv("SECRET_KEY"),
+    "message": "Hello, World!",
+    }
 
 @app.middleware("http") #This logs each HTTP request like:
 async def log_requests(request: Request, call_next):

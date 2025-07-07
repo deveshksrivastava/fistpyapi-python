@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, Form, File, UploadFile
-from models import User
+from app.models import User
 
 def hello_world():    
     return {"message": "Hello, World!"}
