@@ -53,9 +53,6 @@ item_customer = {
 }
 
 
-
-
-
 items = []
 # Define a route using a decorator and async function
 @app.get("/")  # Decorator for GET requests to the root URL
@@ -74,8 +71,6 @@ def index() -> dict[str, dict[int, Item]]:
 def list_items(limit: int = 10):
     # return items
     return items[0:limit]
-
-
 
 # curl -X GET http://127.0.0.1:8000/items/customer
 @app.get("/items/customer")  # Endpoint to get items for customers
