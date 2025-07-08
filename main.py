@@ -4,14 +4,16 @@ from pydantic import BaseModel,Field
 from enum import Enum
 from v1 import routes as v1_routes
 from v2 import routes as v2_routes
-# from connectdb import maindb
+from basic import basic_status_code, basic
 
 # Create an instance of the FastAPI class
 app = FastAPI()
 
 app.include_router(v1_routes.router, prefix="/v1", tags=["v1"])
 app.include_router(v2_routes.router, prefix="/v2", tags=["v2"])
-
+app.include_router(basic_status_code.router, prefix="/books", tags=["books-status-code"])
+app.include_router(basic.router, prefix="/books-status", tags=["books-basic"])
+app.include_router(basic.router, prefix="/books-status", tags=["books-basic"])
 
 class Item(BaseModel):
     name: str

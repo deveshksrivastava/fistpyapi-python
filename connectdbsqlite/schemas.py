@@ -1,19 +1,25 @@
-# from typing import List, Union
-# from pydantic import BaseModel
+from typing import List, Union
+from pydantic import BaseModel
+from typing import List, Optional
 
-# class ItemCreate(BaseModel):
-#     title: str
-#     description: str
 
-# class ItemUpdate(BaseModel):
-#     title: Optional[str] = None
-#     description: Optional[str] = None
+class UserCreate(BaseModel):
+    name: str
+    age: int
+    email:str
+    password: str
 
-# class ItemOut(BaseModel):
-#     id: int
-#     title: str
-#     description: str
-#     owner_id: int
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    age: Optional[int] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
 
-#     class Config:
-#         from_attributes = True
+class UserOut(BaseModel):
+    id: int
+    name: str
+    age: int
+    email: str
+    password: str
+    class Config:
+        from_attributes  = True

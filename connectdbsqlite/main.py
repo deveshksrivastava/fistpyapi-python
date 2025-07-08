@@ -12,6 +12,7 @@ from typing import List, Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from connectdbsqlite.schemas import UserCreate, UserUpdate, UserOut
 # from fastapi_pagination import Page, add_psagination, paginate
 # from fastapi_pagination.ext.sqlalchemy import paginate as sqlalchemy_paginate
 import logging
@@ -67,26 +68,6 @@ def get_db(): # request db session for each request
     finally:
         db.close()
 
-class UserCreate(BaseModel):
-    name: str
-    age: int
-    email:str
-    password: str
-
-class UserUpdate(BaseModel):
-    name: Optional[str] = None
-    age: Optional[int] = None
-    email: Optional[str] = None
-    password: Optional[str] = None
-
-class UserOut(BaseModel):
-    id: int
-    name: str
-    age: int
-    email: str
-    password: str
-    class Config:
-        from_attributes  = True
 
 @app.get("/")  # Decorator for GET requests to the root URL
 async def read_root():
@@ -103,12 +84,10 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     return db_user
 
-
 @app.get("/hello-world/")
 def read_hello():
     print('DATABASE_URL', DATABASE_URL) # Print the hello_world function output
     msg = hello_world() # Call the hello_world function
-    print('hello_world', msg) # Print the hello_world function output
     return msg
 
 @app.get("/users/")
@@ -194,19 +173,3 @@ async def upload_multiple_files(files: List[UploadFile] = File(...)):
         logging.info(f"File {file.filename} saved successfully.")
     return {"message": "Files uploaded successfully"}
 
-
-# #Event handler for startup
-# @app.on_event("startup")
-# async def startup_event():
-#     print("app is starting now!!$$$$$$$$$$$###########")
-#     #add your functionlaity
-
-# #Event handler for shutdown
-# @app.on_event("shutdown")
-# async def shutdown_event():
-#     print("app is shutdown now!!!!!!!!!!")
-#     #add your functionlaity
-
-# @app.get("/")
-# async def read_root():
-#     return {"message": "Hello Mind Blowing."}

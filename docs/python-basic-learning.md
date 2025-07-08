@@ -165,6 +165,15 @@ Now day not much used, but long used.
   - session_id (**)
 ```
 
+## Status code
+```
+1xx - information response
+2xx - Success
+3xx - Redirect action after completion
+4xx - Client error, Error due to client, Authorised access
+5xx - Server error, error on the error
+```
+
 
 
 

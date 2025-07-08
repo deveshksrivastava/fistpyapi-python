@@ -277,6 +277,10 @@ sqlite> select * from todos;
 ├────┼─────────┼─────────────────────────────┤
 │ 1  │ BookDay │ THIS IS ABOUT THE HOME PAGE │
 └────┴─────────┴─────────────────────────────┘
+
+How to connect and run the SQLITE table:
+$ sqlite3 todoapp.db
+sqlite> select * from users;
 ```
 
 ### Install Sqlite
